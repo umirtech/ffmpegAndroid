@@ -1,7 +1,7 @@
 # Precompiled FFMPEG .so files for android 
 
 ## How to add it to Your Android Studio Project -:
-1. Create jniLibs folder inside /main folder example  **\<Your Project Directory>\<Your Project>\src\main\jniLibs**
+1. Create jniLibs folder inside /main folder example  ``\<Your Project Directory>\<Your Project>\src\main\jniLibs``
 2. Copy and paste these files inside jniLibs folder.
 3. And after that add this in Your cmakeList.txt file
 
