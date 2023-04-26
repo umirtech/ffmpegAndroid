@@ -97,4 +97,18 @@ target_link_libraries(
         swscale
 )
 ```
+4. Add this in your Module build.gradle file
+```
+defaultConfig {
+        //............//
+        ndk.abiFilters  'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++14 -fexceptions -frtti"
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
+
+    }
+```
 
