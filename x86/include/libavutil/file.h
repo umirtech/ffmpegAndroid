@@ -19,9 +19,10 @@
 #ifndef AVUTIL_FILE_H
 #define AVUTIL_FILE_H
 
+#include <stddef.h>
 #include <stdint.h>
 
-#include "avutil.h"
+#include "attributes.h"
 
 /**
  * @file
@@ -37,6 +38,9 @@
  * case *bufptr will be set to NULL and *size will be set to 0.
  * The returned buffer must be released with av_file_unmap().
  *
+ * @param filename path to the file
+ * @param[out] bufptr pointee is set to the mapped or allocated buffer
+ * @param[out] size pointee is set to the size in bytes of the buffer
  * @param log_offset loglevel offset used for logging
  * @param log_ctx context used for logging
  * @return a non negative number in case of success, a negative value
@@ -49,58 +53,10 @@ int av_file_map(const char *filename, uint8_t **bufptr, size_t *size,
 /**
  * Unmap or free the buffer bufptr created by av_file_map().
  *
+ * @param bufptr the buffer previously created with av_file_map()
  * @param size size in bytes of bufptr, must be the same as returned
  * by av_file_map()
  */
 void av_file_unmap(uint8_t *bufptr, size_t size);
 
-/**
- * Wrapper to work around the lack of mkstemp() on mingw.
- * Also, tries to create file in /tmp first, if possible.
- * *prefix can be a character constant; *filename will be allocated internally.
- * @return file descriptor of opened file (or negative value corresponding to an
- * AVERROR code on error)
- * and opened file name in **filename.
- * @note On very old libcs it is necessary to set a secure umask before
- *       calling this, av_tempfile() can't call umask itself as it is used in
- *       libraries and could interfere with the calling application.
- * @deprecated as fd numbers cannot be passed saftely between libs on some platforms
- */
-int av_tempfile(const char *prefix, char **filename, int log_offset, void *log_ctx);
-
 #endif /* AVUTIL_FILE_H */
-/*
- * Copyright (c) 2021 Taner Sener
- *
- * This file is part of FFmpegKit.
- *
- * FFmpegKit is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * FFmpegKit is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with FFmpegKit.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-#ifndef AVUTIL_FILE_FFMPEG_KIT_PROTOCOLS_H
-#define AVUTIL_FILE_FFMPEG_KIT_PROTOCOLS_H
-
-typedef int (*saf_open_function)(int);
-
-typedef int (*saf_close_function)(int);
-
-saf_open_function av_get_saf_open(void);
-
-saf_close_function av_get_saf_close(void);
-
-void av_set_saf_open(saf_open_function);
-
-void av_set_saf_close(saf_close_function);
-
-#endif /* AVUTIL_FILE_FFMPEG_KIT_PROTOCOLS_H */
