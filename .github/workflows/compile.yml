@@ -27,28 +27,24 @@ jobs:
 
     - name: Set environment variables
       run: |
-        echo "NDK=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
+        echo "ANDROID_NDK_PATH=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
 
     - name: Clone latest FFmpeg
       run: |
         git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg
-        echo "FFMPEG_SOURCE=$GITHUB_WORKSPACE/ffmpeg" >> $GITHUB_ENV
+        echo "FFMPEG_SOURCE_DIR=$GITHUB_WORKSPACE/ffmpeg" >> $GITHUB_ENV
 
     - name: Create build directory
       run: |
         mkdir -p ffmpeg-build
-        echo "FFMPEG_BUILD=$GITHUB_WORKSPACE/ffmpeg-build" >> $GITHUB_ENV
+        echo "FFMPEG_BUILD_DIR=$GITHUB_WORKSPACE/ffmpeg-build" >> $GITHUB_ENV
 
     - name: Make android.sh executable
       run: chmod +x ./android.sh
 
     - name: Run build script
       run: ./android.sh
-      env:
-        ANDROID_NDK_PATH: ${{ env.NDK }}
-        FFMPEG_SOURCE_DIR: ${{ env.FFMPEG_SOURCE }}
-        FFMPEG_BUILD_DIR: ${{ env.FFMPEG_BUILD }}
-	
+
 
     - name: Upload FFmpeg build artifacts
       uses: actions/upload-artifact@v4
