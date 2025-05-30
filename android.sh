@@ -13,17 +13,16 @@ ENABLED_CONFIG="\
 		--enable-avcodec \
 		--enable-avformat \
 		--enable-avutil \
-		--enable-swscale \
-		--enable-swresample \
 		--enable-demuxers \
 		--enable-parser=* \
-		--enable-decoders \
-		--enable-shared "
+		--enable-static "
 
 
 ### Disable FFMPEG BUILD MODULES ####
 DISABLED_CONFIG="\
 		--disable-zlib \
+  		--disable-swresample \
+  		--disable-swscale \
  		--disable-avfilter \
 		--disable-v4l2-m2m \
 		--disable-cuda-llvm \
@@ -31,7 +30,6 @@ DISABLED_CONFIG="\
 		--disable-libxml2 \
 		--disable-avdevice \
 		--disable-network \
-		--disable-static \
 		--disable-debug \
 		--disable-ffplay \
 		--disable-ffprobe \
