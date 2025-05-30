@@ -70,7 +70,8 @@ configure_ffmpeg(){
    PREFIX=$3
    CROSS_PREFIX=$4
    EXTRA_CFLAGS=$5
-   EXTRA_CONFIG=$6
+   EXTRA_CXXFLAGS=$6
+   EXTRA_CONFIG=$7
    
    CLANG="${CROSS_PREFIX}clang"
    CLANGXX="${CROSS_PREFIX}clang++"
@@ -83,13 +84,15 @@ configure_ffmpeg(){
    --arch=$TARGET_ARCH \
    --cpu=$TARGET_CPU \
    --enable-cross-compile \
+   --enable-pic \
    --cross-prefix="$CROSS_PREFIX" \
    --cc="$CLANG" \
    --cxx="$CLANGXX" \
    --sysroot="$SYSROOT" \
    --prefix="$PREFIX" \
-   --extra-cflags="-fPIC -DANDROID $EXTRA_CFLAGS" \
-   --extra-ldflags="-fPIC -L$SYSROOT/usr/lib/$TARGET_ARCH-linux-android/$ANDROID_API_LEVEL" \
+   --extra-cflags="-fPIC -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security $EXTRA_CFLAGS " \
+   --extra-cxxflags="-fPIC -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=c++17 -fexceptions -frtti $EXTRA_CXXFLAGS "
+   --extra-ldflags="-Wl,-z,max-page-size=16384 -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments -L$SYSROOT/usr/lib/$TARGET_ARCH-linux-android/$ANDROID_API_LEVEL" \
    ${ENABLED_CONFIG} \
    ${DISABLED_CONFIG} \
    --ar="$LLVM_AR" \
@@ -115,7 +118,9 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ABI="aarch64"
             PREFIX="${FFMPEG_BUILD_DIR}/$ARCH-$ANDROID_API_LEVEL"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-android${ANDROID_API_LEVEL}-"
-            EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=1"
+            EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
+	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
+     
             EXTRA_CONFIG="\
             		--enable-neon "
             ;;
@@ -126,7 +131,9 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ABI="armv7a"
             PREFIX="${FFMPEG_BUILD_DIR}/$ARCH-$ANDROID_API_LEVEL"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-androideabi${ANDROID_API_LEVEL}-"
-            EXTRA_CFLAGS="-O3 -marm -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=1"
+            EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
+	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
+     
             EXTRA_CONFIG="\
             		--disable-armv5te \
             		--disable-armv6 \
@@ -140,7 +147,8 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ABI="x86_64"
             PREFIX="${FFMPEG_BUILD_DIR}/$ARCH-$ANDROID_API_LEVEL"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-android${ANDROID_API_LEVEL}-"
-            EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=1"
+            EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
+	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
             		
             EXTRA_CONFIG="\
             		  "
@@ -152,15 +160,16 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ABI="i686"
             PREFIX="${FFMPEG_BUILD_DIR}/$ARCH-$ANDROID_API_LEVEL"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-android${ANDROID_API_LEVEL}-"
-            EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=1"
+            EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
+	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
             EXTRA_CONFIG="\
-            		 --disable-asm"
+            		 "
             ;;
            * )
             echo "Unknown architecture: $ARCH"
             exit 1
             ;;
     esac
-    configure_ffmpeg "$TARGET_ARCH" "$TARGET_CPU" "$PREFIX" "$CROSS_PREFIX" "$EXTRA_CFLAGS" "$EXTRA_CONFIG"
+    configure_ffmpeg "$TARGET_ARCH" "$TARGET_CPU" "$PREFIX" "$CROSS_PREFIX" "$EXTRA_CFLAGS" "$EXTRA_CXXFLAGS" "$EXTRA_CONFIG"
 done
 
