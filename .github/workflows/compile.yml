@@ -21,7 +21,7 @@ jobs:
     - name: Install build tools and Yasm
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential yasm pkg-config autoconf
+        sudo apt-get install -y build-essential nasm pkg-config autoconf
 
     - name: Set up Android NDK
       id: setup-ndk
