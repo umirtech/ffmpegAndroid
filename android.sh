@@ -2,7 +2,7 @@
 
 ### Describe Your Target Android Api or Architectures ###
 ANDROID_API_LEVEL="25"
-ARCH_LIST=("x86")
+ARCH_LIST=("armv8a" "armv7a" "x86" "x86-64")
 
 
 ### Supported Architectures "armv8a" "armv7a" "x86" "x86-64"  ####### 
@@ -24,6 +24,7 @@ ENABLED_CONFIG="\
 ### Disable FFMPEG BUILD MODULES ####
 DISABLED_CONFIG="\
 		--disable-zlib \
+ 		--disable-avfilter \
 		--disable-v4l2-m2m \
 		--disable-cuda-llvm \
 		--disable-indevs \
@@ -37,7 +38,6 @@ DISABLED_CONFIG="\
 		--disable-doc \
 		--disable-symver \
 		--disable-gpl \
-  		--disable-doc \
 		--disable-programs "
 
 
