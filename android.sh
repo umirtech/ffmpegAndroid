@@ -2,7 +2,7 @@
 
 ### Describe Your Target Android Api or Architectures ###
 ANDROID_API_LEVEL="25"
-ARCH_LIST=("armv8a" "armv7a" "x86" "x86-64")
+ARCH_LIST=("x86")
 
 
 ### Supported Architectures "armv8a" "armv7a" "x86" "x86-64"  ####### 
@@ -37,6 +37,7 @@ DISABLED_CONFIG="\
 		--disable-doc \
 		--disable-symver \
 		--disable-gpl \
+  		--disable-doc \
 		--disable-programs "
 
 
@@ -84,7 +85,6 @@ configure_ffmpeg(){
    --arch=$TARGET_ARCH \
    --cpu=$TARGET_CPU \
    --enable-cross-compile \
-   --enable-pic \
    --cross-prefix="$CROSS_PREFIX" \
    --cc="$CLANG" \
    --cxx="$CLANGXX" \
@@ -92,7 +92,8 @@ configure_ffmpeg(){
    --prefix="$PREFIX" \
    --extra-cflags="-fPIC -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security $EXTRA_CFLAGS " \
    --extra-cxxflags="-fPIC -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=c++17 -fexceptions -frtti $EXTRA_CXXFLAGS " \
-   --extra-ldflags="-Wl,-z,max-page-size=16384 -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments -L$SYSROOT/usr/lib/$TARGET_ARCH-linux-android/$ANDROID_API_LEVEL" \
+   --extra-ldflags="-fPIC -Wl,-z,max-page-size=16384 -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments -L$SYSROOT/usr/lib/$TARGET_ARCH-linux-android/$ANDROID_API_LEVEL" \
+   --enable-pic \
    ${ENABLED_CONFIG} \
    ${DISABLED_CONFIG} \
    --ar="$LLVM_AR" \
@@ -163,7 +164,7 @@ for ARCH in "${ARCH_LIST[@]}"; do
             EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
 	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
             EXTRA_CONFIG="\
-            		 "
+            		 --disable-x86asm"
             ;;
            * )
             echo "Unknown architecture: $ARCH"
