@@ -15,12 +15,13 @@ ENABLED_CONFIG="\
 		--enable-avutil \
 		--enable-demuxers \
 		--enable-parser=* \
-		--enable-static "
+		--enable-shared "
 
 
 ### Disable FFMPEG BUILD MODULES ####
 DISABLED_CONFIG="\
 		--disable-zlib \
+ 	        --disable-static \
   		--disable-swresample \
   		--disable-swscale \
  		--disable-avfilter \
@@ -101,8 +102,8 @@ configure_ffmpeg(){
    ${EXTRA_CONFIG}
 
    make clean
-   make -j2
-   make install -j2
+   make -j4
+   make install -j4
    
 }
 
