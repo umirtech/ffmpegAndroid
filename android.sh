@@ -34,11 +34,9 @@ DISABLED_CONFIG="\
 		--disable-static \
 		--disable-debug \
 		--disable-ffplay \
-		--disable-ffprobe \
 		--disable-doc \
 		--disable-symver \
-		--disable-gpl \
-		--disable-programs "
+		--disable-gpl "
 
 
 
