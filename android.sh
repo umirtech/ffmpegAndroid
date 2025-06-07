@@ -13,7 +13,6 @@ ENABLED_CONFIG="\
 		--enable-avcodec \
 		--enable-avformat \
 		--enable-avutil \
-  		## Enable As Per You Want ##
     		--enable-jni \
       		--enable-mediacodec \
   		--enable-demuxer=mov \
