@@ -13,17 +13,27 @@ ENABLED_CONFIG="\
 		--enable-avcodec \
 		--enable-avformat \
 		--enable-avutil \
-		--enable-swscale \
-		--enable-swresample \
-		--enable-demuxers \
-		--enable-parser=* \
-		--enable-decoders \
+  		--enable-demuxer=mov \
+    		--enable-demuxer=matroska \
+		--enable-parser=h264 \
+  		--enable-parser=aac \
+    		--enable-parser=hevc \
+  		--enable-decoder=h264 \
+    		--enable-decoder=aac \
+      		--enable-decoder=hevc \
+		--enable-decoder=opus \
+  		--enable-mediacodec \
 		--enable-shared "
 
 
 ### Disable FFMPEG BUILD MODULES ####
 DISABLED_CONFIG="\
 		--disable-zlib \
+  		--disable-swscale \
+    		--disable-parsers \
+    		--disable-demuxers \
+		--disable-decoders \
+    		--disable-swresample \
  		--disable-avfilter \
 		--disable-v4l2-m2m \
 		--disable-cuda-llvm \
