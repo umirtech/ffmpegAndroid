@@ -13,6 +13,9 @@ ENABLED_CONFIG="\
 		--enable-avcodec \
 		--enable-avformat \
 		--enable-avutil \
+  		## Enable As Per You Want ##
+    		--enable-jni \
+      		--enable-mediacodec \
   		--enable-demuxer=mov \
     		--enable-demuxer=matroska \
 		--enable-parser=h264 \
@@ -22,7 +25,6 @@ ENABLED_CONFIG="\
     		--enable-decoder=aac \
       		--enable-decoder=hevc \
 		--enable-decoder=opus \
-  		--enable-mediacodec \
 		--enable-shared "
 
 
