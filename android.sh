@@ -31,9 +31,6 @@ ENABLED_CONFIG="\
 DISABLED_CONFIG="\
 		--disable-zlib \
   		--disable-swscale \
-    		--disable-parsers \
-    		--disable-demuxers \
-		--disable-decoders \
     		--disable-swresample \
  		--disable-avfilter \
 		--disable-v4l2-m2m \
@@ -45,6 +42,7 @@ DISABLED_CONFIG="\
 		--disable-static \
 		--disable-debug \
 		--disable-ffplay \
+  		--disable-ffprobe \
 		--disable-doc \
 		--disable-symver \
 		--disable-gpl "
