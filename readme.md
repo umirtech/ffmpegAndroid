@@ -1,4 +1,7 @@
-# Precompiled FFMPEG .so files for android 
+# Compile FFMPEG shared (.so) or static (.a) files for android 
+
+## For Step By Step tutorial Read this Article ([Compile FFMPEG For Android](https://umirtech.com/how-to-compile-build-ffmpeg-for-android-and-use-it-in-android-studio/))
+
 
 ## How to add it to Your Android Studio Project -:
 1. Create jniLibs folder inside /main folder example  ``\<Your Project Directory>\<Your Project>\src\main\jniLibs``
@@ -10,7 +13,10 @@
 set(IMPORT_DIR ${CMAKE_SOURCE_DIR}/../jniLibs)
 
 # FFmpeg include file
-include_directories(${IMPORT_DIR}/${ANDROID_ABI}/include)
+set(FFMPEG_INCLUDE_DIR ${IMPORT_DIR}/${ANDROID_ABI}/include)
+set(FFMPEG_LIB_DIR ${IMPORT_DIR}/${ANDROID_ABI}/lib)
+
+include_directories(${FFMPEG_INCLUDE_DIR})
 # Codec library
 add_library(
         avcodec
@@ -20,7 +26,7 @@ add_library(
 set_target_properties(
         avcodec
         PROPERTIES IMPORTED_LOCATION
-        ${IMPORT_DIR}/${ANDROID_ABI}/libavcodec.so
+        ${FFMPEG_LIB_DIR}/libavcodec.so
 )
 # The filter library is temporarily out of use
 add_library(
@@ -31,7 +37,7 @@ add_library(
 set_target_properties(
         avfilter
         PROPERTIES IMPORTED_LOCATION
-        ${IMPORT_DIR}/${ANDROID_ABI}/libavfilter.so
+        ${FFMPEG_LIB_DIR}/libavfilter.so
 )
 
 # File format libraries are required for most operations
@@ -44,7 +50,7 @@ add_library(
 set_target_properties(
         avformat
         PROPERTIES IMPORTED_LOCATION
-        ${IMPORT_DIR}/${ANDROID_ABI}/libavformat.so
+        ${FFMPEG_LIB_DIR}/libavformat.so
 )
 
 # Tool library
@@ -56,7 +62,7 @@ add_library(
 set_target_properties(
         avutil
         PROPERTIES IMPORTED_LOCATION
-        ${IMPORT_DIR}/${ANDROID_ABI}/libavutil.so
+        ${FFMPEG_LIB_DIR}/libavutil.so
 )
 
 # The resampling library is mainly used for audio conversion.
@@ -68,7 +74,7 @@ add_library(
 set_target_properties(
         swresample
         PROPERTIES IMPORTED_LOCATION
-        ${IMPORT_DIR}/${ANDROID_ABI}/libswresample.so
+        ${FFMPEG_LIB_DIR}/libswresample.so
 )
 
 # Video format conversion library is mainly used for video conversion.
@@ -80,7 +86,7 @@ add_library(
 set_target_properties(
         swscale
         PROPERTIES IMPORTED_LOCATION
-        ${IMPORT_DIR}/${ANDROID_ABI}/libswscale.so
+        ${FFMPEG_LIB_DIR}/libswscale.so
 )
 
 
@@ -104,11 +110,11 @@ defaultConfig {
         ndk.abiFilters  'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         externalNativeBuild {
             cmake {
-                cppFlags "-std=c++14 -fexceptions -frtti"
+                cppFlags "-std=c++17 -fexceptions -frtti"
                 arguments "-DANDROID_STL=c++_shared"
             }
         }
 
     }
 ```
-## This FFMPEG files is None GPL Version 
+## These Precompiled Shared FFmpeg Binaries is Non GPL Version You can configure and compile it by your self forking this repo

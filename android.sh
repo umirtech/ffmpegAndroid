@@ -13,17 +13,25 @@ ENABLED_CONFIG="\
 		--enable-avcodec \
 		--enable-avformat \
 		--enable-avutil \
-		--enable-swscale \
-		--enable-swresample \
-		--enable-demuxers \
-		--enable-parser=* \
-		--enable-decoders \
+    		--enable-jni \
+      		--enable-mediacodec \
+  		--enable-demuxer=mov \
+    		--enable-demuxer=matroska \
+		--enable-parser=h264 \
+  		--enable-parser=aac \
+    		--enable-parser=hevc \
+  		--enable-decoder=h264 \
+    		--enable-decoder=aac \
+      		--enable-decoder=hevc \
+		--enable-decoder=opus \
 		--enable-shared "
 
 
 ### Disable FFMPEG BUILD MODULES ####
 DISABLED_CONFIG="\
 		--disable-zlib \
+  		--disable-swscale \
+    		--disable-swresample \
  		--disable-avfilter \
 		--disable-v4l2-m2m \
 		--disable-cuda-llvm \
@@ -34,11 +42,10 @@ DISABLED_CONFIG="\
 		--disable-static \
 		--disable-debug \
 		--disable-ffplay \
-		--disable-ffprobe \
+  		--disable-ffprobe \
 		--disable-doc \
 		--disable-symver \
-		--disable-gpl \
-		--disable-programs "
+		--disable-gpl "
 
 
 
@@ -117,7 +124,7 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ARCH="aarch64"
             TARGET_CPU="armv8-a"
             TARGET_ABI="aarch64"
-            PREFIX="${FFMPEG_BUILD_DIR}/$ARCH-$ANDROID_API_LEVEL"
+            PREFIX="${FFMPEG_BUILD_DIR}/$ANDROID_API_LEVEL/arm64-v8a"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-android${ANDROID_API_LEVEL}-"
             EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
 	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
@@ -130,7 +137,7 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ARCH="arm"
             TARGET_CPU="armv7-a"
             TARGET_ABI="armv7a"
-            PREFIX="${FFMPEG_BUILD_DIR}/$ARCH-$ANDROID_API_LEVEL"
+            PREFIX="${FFMPEG_BUILD_DIR}/$ANDROID_API_LEVEL/armeabi-v7a"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-androideabi${ANDROID_API_LEVEL}-"
             EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
 	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
@@ -146,7 +153,7 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ARCH="x86_64"
             TARGET_CPU="x86-64"
             TARGET_ABI="x86_64"
-            PREFIX="${FFMPEG_BUILD_DIR}/$ARCH-$ANDROID_API_LEVEL"
+            PREFIX="${FFMPEG_BUILD_DIR}/$ANDROID_API_LEVEL/x86_64"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-android${ANDROID_API_LEVEL}-"
             EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
 	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
@@ -159,7 +166,7 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ARCH="i686"
             TARGET_CPU="i686"
             TARGET_ABI="i686"
-            PREFIX="${FFMPEG_BUILD_DIR}/$ARCH-$ANDROID_API_LEVEL"
+            PREFIX="${FFMPEG_BUILD_DIR}/$ANDROID_API_LEVEL/x86"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-android${ANDROID_API_LEVEL}-"
             EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
 	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
