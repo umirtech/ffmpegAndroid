@@ -1,6 +1,6 @@
 # Compile FFMPEG shared (.so) or static (.a) files for android 
 
-
+## For Sep By Step tutorial Read this Article (https://yourwebsite.com)
 
 
 ## How to add it to Your Android Studio Project -:
