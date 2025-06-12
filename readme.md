@@ -117,4 +117,4 @@ defaultConfig {
 
     }
 ```
-## This Precmpiled Shared FFmpeg Binaries is Non GPL Version You can coompile it by forking this repo
+## These Precompiled Shared FFmpeg Binaries is Non GPL Version You can configure and compile it by your self forking this repo
