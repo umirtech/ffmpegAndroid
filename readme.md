@@ -1,4 +1,7 @@
-# Precompiled FFMPEG .so files for android 
+# Compile FFMPEG shared (.so) or static (.a) files for android 
+
+
+
 
 ## How to add it to Your Android Studio Project -:
 1. Create jniLibs folder inside /main folder example  ``\<Your Project Directory>\<Your Project>\src\main\jniLibs``
@@ -111,4 +114,4 @@ defaultConfig {
 
     }
 ```
-## This FFMPEG files is None GPL Version 
+## This Precmpiled Shared FFmpeg Binaries is Non GPL Version You can coompile it by forking this repo
