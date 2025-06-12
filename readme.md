@@ -1,6 +1,6 @@
 # Compile FFMPEG shared (.so) or static (.a) files for android 
 
-## For Sep By Step tutorial Read this Article (https://yourwebsite.com)
+## For Sep By Step tutorial Read this Article ([Compile FFMPEG For Android](https://umirtech.com/how-to-compile-build-ffmpeg-for-android-and-use-it-in-android-studio/))
 
 
 ## How to add it to Your Android Studio Project -:
