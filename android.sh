@@ -9,28 +9,20 @@ ARCH_LIST=("armv8a" "armv7a" "x86" "x86-64")
 
 ### Enable FFMPEG BUILD MODULES ####
 ENABLED_CONFIG="\
-        --enable-small \
 		--enable-avcodec \
 		--enable-avformat \
 		--enable-avutil \
-    		--enable-jni \
-      		--enable-mediacodec \
-  		--enable-demuxer=mov \
-    		--enable-demuxer=matroska \
-		--enable-parser=h264 \
-  		--enable-parser=aac \
-    		--enable-parser=hevc \
-  		--enable-decoder=h264 \
-    		--enable-decoder=aac \
-      		--enable-decoder=hevc \
-		--enable-decoder=opus \
-		--enable-shared "
+  		--enable-swscale \
+    		--enable-demuxer=mov,matroska,avi,mpegts,flv,ogg,image2,webm_dash_manifest,asf,m4v,mpegvideo,mp3,wav,aac,ac3,flac,webvtt \
+		--enable-decoder=h264,hevc,vp8,vp9,av1,mpeg4,wmv3,msmpeg4v2,msmpeg4v3,theora,dvvideo,h263,mjpeg,png,jpeg,bmp,webp,mp3,aac,ac3,eac3,flac,opus,vorbis,pcm_s16le,pcm_s24le,alac,wma,ass,ssa,mov_text,subrip,webvtt,dvbsub,dvdsub \
+		--enable-parser=h264,hevc,vp8,vp9,aac,ac3,eac3,flac,opus,vorbis,mpeg4video,mpegaudio \
+		--enable-static "
 
 
 ### Disable FFMPEG BUILD MODULES ####
 DISABLED_CONFIG="\
+		--disable-small \
 		--disable-zlib \
-  		--disable-swscale \
     		--disable-swresample \
  		--disable-avfilter \
 		--disable-v4l2-m2m \
@@ -39,7 +31,7 @@ DISABLED_CONFIG="\
 		--disable-libxml2 \
 		--disable-avdevice \
 		--disable-network \
-		--disable-static \
+		--disable-shared \
 		--disable-debug \
 		--disable-ffplay \
   		--disable-ffprobe \
@@ -70,7 +62,7 @@ LLVM_AR="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar"
 LLVM_NM="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-nm"
 LLVM_RANLIB="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib"
 LLVM_STRIP="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip"
-
+export ASFLAGS="-fPIC"
 
 configure_ffmpeg(){
    TARGET_ARCH=$1
@@ -159,7 +151,7 @@ for ARCH in "${ARCH_LIST[@]}"; do
 	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
             		
             EXTRA_CONFIG="\
-            		  "
+	                 --disable-asm "
             ;;
         "x86"|"i686")
             echo -e "\e[1;32m$ARCH Libraries\e[0m"
@@ -180,4 +172,3 @@ for ARCH in "${ARCH_LIST[@]}"; do
     esac
     configure_ffmpeg "$TARGET_ARCH" "$TARGET_CPU" "$PREFIX" "$CROSS_PREFIX" "$EXTRA_CFLAGS" "$EXTRA_CXXFLAGS" "$EXTRA_CONFIG"
 done
-
