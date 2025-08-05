@@ -118,12 +118,11 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ABI="aarch64"
             PREFIX="${FFMPEG_BUILD_DIR}/$ANDROID_API_LEVEL/arm64-v8a"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-android${ANDROID_API_LEVEL}-"
-            EXTRA_CFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
-	    EXTRA_CXXFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
+            EXTRA_CFLAGS="-O2 -march=$TARGET_CPU -fomit-frame-pointer"
+	    EXTRA_CXXFLAGS="-O2 -march=$TARGET_CPU -fomit-frame-pointer"
      
             EXTRA_CONFIG="\
 	    	      	--enable-asm \
-			--enable-yasm \
             		--enable-neon "
             ;;
         "armv7-a"|"armeabi-v7a"|"armv7a")
@@ -133,15 +132,14 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ABI="armv7a"
             PREFIX="${FFMPEG_BUILD_DIR}/$ANDROID_API_LEVEL/armeabi-v7a"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-androideabi${ANDROID_API_LEVEL}-"
-            EXTRA_CFLAGS="-Os -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
-	    EXTRA_CXXFLAGS="-Os -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
+            EXTRA_CFLAGS="-O2 -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
+	    EXTRA_CXXFLAGS="-O2 -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
      
             EXTRA_CONFIG="\
             		--disable-armv5te \
             		--disable-armv6 \
             		--disable-armv6t2 \
 	      		--enable-asm \
-			--enable-yasm \
             		--enable-neon "
             ;;
         "x86-64"|"x86_64")
@@ -151,12 +149,11 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ABI="x86_64"
             PREFIX="${FFMPEG_BUILD_DIR}/$ANDROID_API_LEVEL/x86_64"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-android${ANDROID_API_LEVEL}-"
-            EXTRA_CFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
-	    EXTRA_CXXFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
+            EXTRA_CFLAGS="-O2 -march=$TARGET_CPU -fomit-frame-pointer"
+	    EXTRA_CXXFLAGS="-O2 -march=$TARGET_CPU -fomit-frame-pointer"
             		
             EXTRA_CONFIG="\
-	    	      	--enable-asm \
-			--enable-yasm "
+	    	      	--enable-asm "
             ;;
         "x86"|"i686")
             echo -e "\e[1;32m$ARCH Libraries\e[0m"
@@ -165,11 +162,10 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ABI="i686"
             PREFIX="${FFMPEG_BUILD_DIR}/$ANDROID_API_LEVEL/x86"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-android${ANDROID_API_LEVEL}-"
-            EXTRA_CFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
-	    EXTRA_CXXFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
+            EXTRA_CFLAGS="-O2 -march=$TARGET_CPU -fomit-frame-pointer"
+	    EXTRA_CXXFLAGS="-O2 -march=$TARGET_CPU -fomit-frame-pointer"
             EXTRA_CONFIG="\
-            		 --enable-asm \
-			 --enable-yasm "
+            		 --enable-asm "
             ;;
            * )
             echo "Unknown architecture: $ARCH"
