@@ -122,6 +122,8 @@ for ARCH in "${ARCH_LIST[@]}"; do
 	    EXTRA_CXXFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
      
             EXTRA_CONFIG="\
+	    	      	--enable-asm \
+			--enable-yasm \
             		--enable-neon "
             ;;
         "armv7-a"|"armeabi-v7a"|"armv7a")
@@ -138,6 +140,8 @@ for ARCH in "${ARCH_LIST[@]}"; do
             		--disable-armv5te \
             		--disable-armv6 \
             		--disable-armv6t2 \
+	      		--enable-asm \
+			--enable-yasm \
             		--enable-neon "
             ;;
         "x86-64"|"x86_64")
@@ -151,8 +155,8 @@ for ARCH in "${ARCH_LIST[@]}"; do
 	    EXTRA_CXXFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
             		
             EXTRA_CONFIG="\
-	    		--disable-x86asm
-	                --disable-asm "
+	    	      	--enable-asm \
+			--enable-yasm "
             ;;
         "x86"|"i686")
             echo -e "\e[1;32m$ARCH Libraries\e[0m"
@@ -164,7 +168,8 @@ for ARCH in "${ARCH_LIST[@]}"; do
             EXTRA_CFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
 	    EXTRA_CXXFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
             EXTRA_CONFIG="\
-            		 --disable-asm "
+            		 --enable-asm \
+			 --enable-yasm "
             ;;
            * )
             echo "Unknown architecture: $ARCH"
