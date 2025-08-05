@@ -165,7 +165,7 @@ for ARCH in "${ARCH_LIST[@]}"; do
             EXTRA_CFLAGS="-O2 -march=$TARGET_CPU -fomit-frame-pointer"
 	    EXTRA_CXXFLAGS="-O2 -march=$TARGET_CPU -fomit-frame-pointer"
             EXTRA_CONFIG="\
-            		 --enable-asm "
+            		 --disable-asm "
             ;;
            * )
             echo "Unknown architecture: $ARCH"
