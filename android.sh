@@ -122,7 +122,7 @@ for ARCH in "${ARCH_LIST[@]}"; do
 	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
      
             EXTRA_CONFIG="\
-            		--enable-neon "
+            		--disable-neon "
             ;;
         "armv7-a"|"armeabi-v7a"|"armv7a")
             echo -e "\e[1;32m$ARCH Libraries\e[0m"
@@ -151,7 +151,8 @@ for ARCH in "${ARCH_LIST[@]}"; do
 	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
             		
             EXTRA_CONFIG="\
-	                 --disable-asm "
+	    		--disable-x86asm
+       			--disable-asm "
             ;;
         "x86"|"i686")
             echo -e "\e[1;32m$ARCH Libraries\e[0m"
