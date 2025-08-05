@@ -89,8 +89,8 @@ configure_ffmpeg(){
    --cxx="$CLANGXX" \
    --sysroot="$SYSROOT" \
    --prefix="$PREFIX" \
-   --extra-cflags="-fPIC -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security $EXTRA_CFLAGS " \
-   --extra-cxxflags="-fPIC -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=c++17 -fexceptions -frtti $EXTRA_CXXFLAGS " \
+   --extra-cflags="-fpic -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security $EXTRA_CFLAGS " \
+   --extra-cxxflags="-fpic -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=c++17 -fexceptions -frtti $EXTRA_CXXFLAGS " \
    --extra-ldflags=" -Wl,-z,max-page-size=16384 -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments -L$SYSROOT/usr/lib/$TARGET_ARCH-linux-android/$ANDROID_API_LEVEL" \
    --enable-pic \
    ${ENABLED_CONFIG} \
@@ -118,8 +118,8 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ABI="aarch64"
             PREFIX="${FFMPEG_BUILD_DIR}/$ANDROID_API_LEVEL/arm64-v8a"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-android${ANDROID_API_LEVEL}-"
-            EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
-	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
+            EXTRA_CFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
+	    EXTRA_CXXFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
      
             EXTRA_CONFIG="\
             		--enable-neon "
@@ -131,8 +131,8 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ABI="armv7a"
             PREFIX="${FFMPEG_BUILD_DIR}/$ANDROID_API_LEVEL/armeabi-v7a"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-androideabi${ANDROID_API_LEVEL}-"
-            EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
-	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
+            EXTRA_CFLAGS="-Os -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
+	    EXTRA_CXXFLAGS="-Os -march=$TARGET_CPU -mfpu=neon -fomit-frame-pointer"
      
             EXTRA_CONFIG="\
             		--disable-armv5te \
@@ -147,8 +147,8 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ABI="x86_64"
             PREFIX="${FFMPEG_BUILD_DIR}/$ANDROID_API_LEVEL/x86_64"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-android${ANDROID_API_LEVEL}-"
-            EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
-	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
+            EXTRA_CFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
+	    EXTRA_CXXFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
             		
             EXTRA_CONFIG="\
 	    		--disable-x86asm
@@ -161,8 +161,8 @@ for ARCH in "${ARCH_LIST[@]}"; do
             TARGET_ABI="i686"
             PREFIX="${FFMPEG_BUILD_DIR}/$ANDROID_API_LEVEL/x86"
             CROSS_PREFIX="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/$TARGET_ABI-linux-android${ANDROID_API_LEVEL}-"
-            EXTRA_CFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
-	    EXTRA_CXXFLAGS="-O3 -march=$TARGET_CPU -fomit-frame-pointer"
+            EXTRA_CFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
+	    EXTRA_CXXFLAGS="-Os -march=$TARGET_CPU -fomit-frame-pointer"
             EXTRA_CONFIG="\
             		 --disable-asm "
             ;;
