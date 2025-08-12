@@ -37,12 +37,6 @@ jobs:
     - name: Make .sh files executable
       run: |
         chmod +x ./android.sh
-        chmod +x ./buildLibraries.sh
-
-    - name: buildLibraries
-      run: |
-        ./buildLibraries.sh
-        cd $GITHUB_WORKSPACE
       
     - name: Clone latest FFmpeg
       run: |
