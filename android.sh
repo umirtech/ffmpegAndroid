@@ -53,16 +53,49 @@ DISABLED_CONFIG="\
 ############ Dont Change ################
 ############ Dont Change ################
 
-## ANDROID_NDK_PATH="/home/a/Desktop/Custom-Files/ffmpeg-compile/ndk/android-ndk-r27c"
-## FFMPEG_SOURCE_DIR="/home/a/Desktop/Custom-Files/ffmpeg-compile/ffmpeg-7.1.1"
-## FFMPEG_BUILD_DIR="/home/a/Desktop/Custom-Files/ffmpeg-compile/ffmpeg-build"
-
 SYSROOT="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
 LLVM_AR="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar"
 LLVM_NM="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-nm"
 LLVM_RANLIB="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib"
 LLVM_STRIP="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip"
 export ASFLAGS="-fPIC"
+
+
+buildLibdav1d(){
+	TARGET_ARCH=$1
+    TARGET_CPU=$2
+    PREFIX=$3
+    CROSS_PREFIX=$4
+    EXTRA_CFLAGS=$5
+    EXTRA_CXXFLAGS=$6
+    EXTRA_CONFIG=$7
+	CLANG="${CROSS_PREFIX}clang"
+    CLANGXX="${CROSS_PREFIX}clang++"
+
+	if [ ! -d "dav1d" ]; then
+	    echo "Cloning libdav1d..."
+	    git clone https://code.videolan.org/videolan/dav1d.git
+	else
+	    echo "Updating libdav1d..."
+	    cd dav1d
+	    git pull
+	    cd ..
+	fi
+	
+	cd dav1d
+ 	CROSS_FILE="package/crossfiles/aarch64-android.meson"
+  
+	meson setup build \
+	  --prefix=$PREFIX \
+	  --buildtype release \
+   	  --c_args="-fpic -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security $EXTRA_CFLAGS " \
+	  --cross-file = package/crossfiles/$TARGET_ARCH-android.meson
+	
+	ninja -C build
+	ninja -C build install
+}
+
+
 
 configure_ffmpeg(){
    TARGET_ARCH=$1
@@ -172,5 +205,14 @@ for ARCH in "${ARCH_LIST[@]}"; do
             exit 1
             ;;
     esac
+	buildLibdav1d "$TARGET_ARCH" "$TARGET_CPU" "$PREFIX" "$CROSS_PREFIX" "$EXTRA_CFLAGS" "$EXTRA_CXXFLAGS" "$EXTRA_CONFIG"
+	if [ $? -ne 0 ]; then
+		echo "Error compiling $ARCH"
+		break
+	fi
     configure_ffmpeg "$TARGET_ARCH" "$TARGET_CPU" "$PREFIX" "$CROSS_PREFIX" "$EXTRA_CFLAGS" "$EXTRA_CXXFLAGS" "$EXTRA_CONFIG"
+	if [ $? -ne 0 ]; then
+		echo "Error compiling $ARCH"
+		break
+	fi
 done
