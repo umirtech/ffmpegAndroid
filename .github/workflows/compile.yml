@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      NDK_VERSION: r27c
+      NDK_VERSION: r28c
 
     steps:
     - name: Checkout repository
@@ -34,6 +34,16 @@ jobs:
       run: |
         echo "ANDROID_NDK_PATH=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
 
+    - name: Make .sh files executable
+      run: |
+        chmod +x ./android.sh
+        chmod +x ./buildLibraries.sh
+
+    - name: buildLibraries
+      run: |
+        ./buildLibraries.sh
+        cd $GITHUB_WORKSPACE
+      
     - name: Clone latest FFmpeg
       run: |
         git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg
@@ -43,9 +53,6 @@ jobs:
       run: |
         mkdir -p ffmpeg-build
         echo "FFMPEG_BUILD_DIR=$GITHUB_WORKSPACE/ffmpeg-build" >> $GITHUB_ENV
-
-    - name: Make android.sh executable
-      run: chmod +x ./android.sh
 
     - name: Run build script
       run: ./android.sh
