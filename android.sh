@@ -208,11 +208,11 @@ for ARCH in "${ARCH_LIST[@]}"; do
 	buildLibdav1d "$TARGET_ARCH" "$TARGET_CPU" "$PREFIX" "$CROSS_PREFIX" "$EXTRA_CFLAGS" "$EXTRA_CXXFLAGS" "$EXTRA_CONFIG"
 	if [ $? -ne 0 ]; then
 		echo "Error compiling $ARCH"
-		break
+  		exit 1
 	fi
     configure_ffmpeg "$TARGET_ARCH" "$TARGET_CPU" "$PREFIX" "$CROSS_PREFIX" "$EXTRA_CFLAGS" "$EXTRA_CXXFLAGS" "$EXTRA_CONFIG"
 	if [ $? -ne 0 ]; then
 		echo "Error compiling $ARCH"
-		break
+  		exit 1
 	fi
 done
