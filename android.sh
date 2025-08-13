@@ -130,7 +130,9 @@ configure_ffmpeg(){
    EXTRA_CXXFLAGS=$6
    EXTRA_CONFIG=$7
 
-   PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
+   export PKG_CONFIG_LIBDIR="$PREFIX/lib/pkgconfig"
+   export PKG_CONFIG_SYSROOT_DIR="$SYSROOT"
+   
    CLANG="${CROSS_PREFIX}clang"
    CLANGXX="${CROSS_PREFIX}clang++"
    
