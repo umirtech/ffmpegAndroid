@@ -13,6 +13,7 @@ ENABLED_CONFIG="\
 		--enable-avformat \
 		--enable-avutil \
   		--enable-swscale \
+		--enable-libdav1d \
     	--enable-demuxer=mov,matroska,avi,mpegts,flv,ogg,image2,webm_dash_manifest,asf,m4v,mpegvideo,mp3,wav,aac,ac3,flac,webvtt \
 		--enable-decoder=h264,hevc,vp8,vp9,av1,mpeg4,wmv3,msmpeg4v2,msmpeg4v3,theora,dvvideo,h263,mjpeg,png,jpeg,bmp,webp,mp3,aac,ac3,eac3,flac,opus,vorbis,pcm_s16le,pcm_s24le,alac,wma,ass,ssa,mov_text,subrip,webvtt,dvbsub,dvdsub \
 		--enable-parser=h264,hevc,vp8,vp9,aac,ac3,eac3,flac,opus,vorbis,mpeg4video,mpegaudio \
@@ -53,16 +54,72 @@ DISABLED_CONFIG="\
 ############ Dont Change ################
 ############ Dont Change ################
 
-## ANDROID_NDK_PATH="/home/a/Desktop/Custom-Files/ffmpeg-compile/ndk/android-ndk-r27c"
-## FFMPEG_SOURCE_DIR="/home/a/Desktop/Custom-Files/ffmpeg-compile/ffmpeg-7.1.1"
-## FFMPEG_BUILD_DIR="/home/a/Desktop/Custom-Files/ffmpeg-compile/ffmpeg-build"
-
 SYSROOT="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
 LLVM_AR="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar"
 LLVM_NM="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-nm"
 LLVM_RANLIB="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib"
 LLVM_STRIP="$ANDROID_NDK_PATH/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip"
 export ASFLAGS="-fPIC"
+
+
+buildLibdav1d(){
+	TARGET_ARCH=$1
+    TARGET_CPU=$2
+    PREFIX=$3
+    CROSS_PREFIX=$4
+    EXTRA_CFLAGS=$5
+    EXTRA_CXXFLAGS=$6
+    EXTRA_CONFIG=$7
+	CLANG="${CROSS_PREFIX}clang"
+    CLANGXX="${CROSS_PREFIX}clang++"
+
+	if [ "$TARGET_ARCH" = "i686" ]; then
+	    TARGET_ARCH="x86"
+	fi
+ 
+	if [ ! -d "dav1d" ]; then
+	    echo "Cloning libdav1d..."
+	    git clone https://code.videolan.org/videolan/dav1d.git
+	else
+	    echo "Updating libdav1d..."
+	    cd dav1d
+	    git pull
+	    cd ..
+	fi
+	
+	cd dav1d
+	# --- Create cross file ---
+ 	CROSS_FILE="android-$TARGET_ARCH-$ANDROID_API_LEVEL-cross.messon"
+	cat > "$CROSS_FILE" <<EOF
+[binaries]
+c = '$CLANG'
+cpp = '$CLANGXX'
+ar = '$LLVM_AR'
+strip = '$LLVM_STRIP'
+pkg-config = 'pkg-config'
+
+[properties]
+needs_exe_wrapper = true
+
+[host_machine]
+system = 'android'
+cpu_family = '$TARGET_ARCH'
+cpu = '$TARGET_CPU'
+endian = 'little'
+EOF
+	
+	echo "Meson cross file created: $CROSS_FILE"
+ 	rm -rf build
+	meson setup build \
+	  --prefix=$PREFIX \
+	  --buildtype release \
+	  --cross-file=$CROSS_FILE
+	
+	ninja -C build
+	ninja -C build install
+}
+
+
 
 configure_ffmpeg(){
    TARGET_ARCH=$1
@@ -73,16 +130,17 @@ configure_ffmpeg(){
    EXTRA_CXXFLAGS=$6
    EXTRA_CONFIG=$7
    
+   export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
    CLANG="${CROSS_PREFIX}clang"
    CLANGXX="${CROSS_PREFIX}clang++"
    
    cd "$FFMPEG_SOURCE_DIR"
-   
    ./configure \
    --disable-everything \
    --target-os=android \
    --arch=$TARGET_ARCH \
    --cpu=$TARGET_CPU \
+   --pkg-config=pkg-config \
    --enable-cross-compile \
    --cross-prefix="$CROSS_PREFIX" \
    --cc="$CLANG" \
@@ -172,5 +230,14 @@ for ARCH in "${ARCH_LIST[@]}"; do
             exit 1
             ;;
     esac
+	buildLibdav1d "$TARGET_ARCH" "$TARGET_CPU" "$PREFIX" "$CROSS_PREFIX" "$EXTRA_CFLAGS" "$EXTRA_CXXFLAGS" "$EXTRA_CONFIG"
+	if [ $? -ne 0 ]; then
+		echo "Error compiling $ARCH"
+  		exit 1
+	fi
     configure_ffmpeg "$TARGET_ARCH" "$TARGET_CPU" "$PREFIX" "$CROSS_PREFIX" "$EXTRA_CFLAGS" "$EXTRA_CXXFLAGS" "$EXTRA_CONFIG"
+	if [ $? -ne 0 ]; then
+		echo "Error compiling $ARCH"
+  		exit 1
+	fi
 done
