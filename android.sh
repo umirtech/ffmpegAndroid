@@ -13,6 +13,7 @@ ENABLED_CONFIG="\
 		--enable-avformat \
 		--enable-avutil \
   		--enable-swscale \
+		--enable-libdav1d \
     	--enable-demuxer=mov,matroska,avi,mpegts,flv,ogg,image2,webm_dash_manifest,asf,m4v,mpegvideo,mp3,wav,aac,ac3,flac,webvtt \
 		--enable-decoder=h264,hevc,vp8,vp9,av1,mpeg4,wmv3,msmpeg4v2,msmpeg4v3,theora,dvvideo,h263,mjpeg,png,jpeg,bmp,webp,mp3,aac,ac3,eac3,flac,opus,vorbis,pcm_s16le,pcm_s24le,alac,wma,ass,ssa,mov_text,subrip,webvtt,dvbsub,dvdsub \
 		--enable-parser=h264,hevc,vp8,vp9,aac,ac3,eac3,flac,opus,vorbis,mpeg4video,mpegaudio \
@@ -72,6 +73,10 @@ buildLibdav1d(){
 	CLANG="${CROSS_PREFIX}clang"
     CLANGXX="${CROSS_PREFIX}clang++"
 
+	if [ "$TARGET_ARCH" = "i686" ]; then
+	    TARGET_ARCH="x86"
+	fi
+ 
 	if [ ! -d "dav1d" ]; then
 	    echo "Cloning libdav1d..."
 	    git clone https://code.videolan.org/videolan/dav1d.git
@@ -95,7 +100,6 @@ pkgconfig = 'pkg-config'
 
 [properties]
 needs_exe_wrapper = true
-sys_root = '$SYSROOT'
 
 [host_machine]
 system = 'android'
@@ -105,6 +109,7 @@ endian = 'little'
 EOF
 	
 	echo "Meson cross file created: $CROSS_FILE"
+ 	rm -rf build
 	meson setup build \
 	  --prefix=$PREFIX \
 	  --buildtype release \
