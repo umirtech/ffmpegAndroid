@@ -129,12 +129,12 @@ configure_ffmpeg(){
    EXTRA_CFLAGS=$5
    EXTRA_CXXFLAGS=$6
    EXTRA_CONFIG=$7
-   
+
+   PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
    CLANG="${CROSS_PREFIX}clang"
    CLANGXX="${CROSS_PREFIX}clang++"
    
    cd "$FFMPEG_SOURCE_DIR"
-   
    ./configure \
    --disable-everything \
    --target-os=android \
