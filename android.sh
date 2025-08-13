@@ -101,6 +101,11 @@ pkg-config = 'pkg-config'
 [properties]
 needs_exe_wrapper = true
 
+[built-in options]
+c_args = ['-fpic']
+cpp_args = ['-fpic']
+c_link_args = ['-Wl,-z,max-page-size=16384']
+
 [host_machine]
 system = 'android'
 cpu_family = '$TARGET_ARCH'
