@@ -83,12 +83,32 @@ buildLibdav1d(){
 	fi
 	
 	cd dav1d
- 	CROSS_FILE="package/crossfiles/aarch64-android.meson"
-  
+	# --- Create cross file ---
+ 	CROSS_FILE="android-$TARGET_ARCH-$ANDROID_API_LEVEL-cross.messon"
+	cat > "$CROSS_FILE" <<EOF
+[binaries]
+c = '$CLANG'
+cpp = '$CLANGXX'
+ar = '$LLVM_AR'
+strip = '$LLVM_STRIP'
+pkgconfig = 'pkg-config'
+
+[properties]
+needs_exe_wrapper = true
+sys_root = '$SYSROOT'
+
+[host_machine]
+system = 'android'
+cpu_family = '$TARGET_ARCH'
+cpu = '$TARGET_CPU'
+endian = 'little'
+EOF
+	
+	echo "Meson cross file created: $CROSS_FILE"
 	meson setup build \
 	  --prefix=$PREFIX \
 	  --buildtype release \
-	  --cross-file=package/crossfiles/$TARGET_ARCH-android.meson
+	  --cross-file=$CROSS_FILE
 	
 	ninja -C build
 	ninja -C build install
