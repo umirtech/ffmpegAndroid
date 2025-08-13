@@ -88,7 +88,6 @@ buildLibdav1d(){
 	meson setup build \
 	  --prefix=$PREFIX \
 	  --buildtype release \
-   	  --c_args="-fpic -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security $EXTRA_CFLAGS " \
 	  --cross-file = package/crossfiles/$TARGET_ARCH-android.meson
 	
 	ninja -C build
