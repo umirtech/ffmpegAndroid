@@ -88,7 +88,7 @@ buildLibdav1d(){
 	meson setup build \
 	  --prefix=$PREFIX \
 	  --buildtype release \
-	  --cross-file = package/crossfiles/$TARGET_ARCH-android.meson
+	  --cross-file=package/crossfiles/$TARGET_ARCH-android.meson
 	
 	ninja -C build
 	ninja -C build install
