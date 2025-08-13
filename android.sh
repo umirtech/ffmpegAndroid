@@ -96,7 +96,7 @@ c = '$CLANG'
 cpp = '$CLANGXX'
 ar = '$LLVM_AR'
 strip = '$LLVM_STRIP'
-pkgconfig = 'pkg-config'
+pkg-config = 'pkg-config'
 
 [properties]
 needs_exe_wrapper = true
@@ -129,10 +129,8 @@ configure_ffmpeg(){
    EXTRA_CFLAGS=$5
    EXTRA_CXXFLAGS=$6
    EXTRA_CONFIG=$7
-   PKG_CONFIG=pkg-config
-   PKG_CONFIG_LIBDIR="$PREFIX/lib/pkgconfig"
-   PKG_CONFIG_SYSROOT_DIR=$SYSROOT
    
+   export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
    CLANG="${CROSS_PREFIX}clang"
    CLANGXX="${CROSS_PREFIX}clang++"
    
@@ -142,6 +140,7 @@ configure_ffmpeg(){
    --target-os=android \
    --arch=$TARGET_ARCH \
    --cpu=$TARGET_CPU \
+   --pkg-config=pkg-config \
    --enable-cross-compile \
    --cross-prefix="$CROSS_PREFIX" \
    --cc="$CLANG" \
