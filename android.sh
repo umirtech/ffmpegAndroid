@@ -102,9 +102,9 @@ pkg-config = 'pkg-config'
 needs_exe_wrapper = true
 
 [built-in options]
-c_args = ['-fpic','-DANDROID','-fdata-sections','-ffunction-sections','-funwind-tables','-fstack-protector-strong','-no-canonical-prefixes','-D__BIONIC_NO_PAGE_SIZE_MACRO','-D_FORTIFY_SOURCE=2','-Wformat','-Werror=format-security','$EXTRA_CFLAGS']
-cpp_args = ['-fpic','-DANDROID','-fdata-sections','-ffunction-sections','-funwind-tables','-fstack-protector-strong','-no-canonical-prefixes','-D__BIONIC_NO_PAGE_SIZE_MACRO','-D_FORTIFY_SOURCE=2','-Wformat','-Werror=format-security','-std=c++17','-fexceptions','-frtti','$EXTRA_CXXFLAGS']
-c_link_args = ['-Wl,-z,max-page-size=16384','-Wl,--build-id=sha1','-Wl,--no-rosegment','-Wl,--no-undefined-version','-Wl,--fatal-warnings','-Wl,--no-undefined','-Qunused-arguments','-L$SYSROOT/usr/lib/$TARGET_ARCH-linux-android/$ANDROID_API_LEVEL']
+c_args = ['-fpic']
+cpp_args = ['-fpic']
+c_link_args = ['-Wl,-z,max-page-size=16384']
 
 [host_machine]
 system = 'android'
