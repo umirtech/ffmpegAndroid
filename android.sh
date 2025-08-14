@@ -116,6 +116,7 @@ EOF
 	echo "Meson cross file created: $CROSS_FILE"
  	rm -rf build
 	meson setup build \
+ 	  --default-library=static \
 	  --prefix=$PREFIX \
 	  --buildtype release \
 	  --cross-file=$CROSS_FILE
