@@ -15,7 +15,7 @@ ENABLED_CONFIG="\
   		--enable-swscale \
 		--enable-libdav1d \
     	--enable-demuxer=mov,matroska,avi,mpegts,flv,ogg,image2,webm_dash_manifest,asf,m4v,mpegvideo,mp3,wav,aac,ac3,flac,webvtt \
-		--enable-decoder=h264,hevc,vp8,vp9,flv,vp6f,adpcm_swf,mpeg4,wmv3,msmpeg4v2,msmpeg4v3,theora,dvvideo,h263,mjpeg,png,jpeg,bmp,webp,mp3,aac,ac3,eac3,flac,opus,vorbis,pcm_s16le,pcm_s24le,alac,wma,ass,ssa,mov_text,subrip,webvtt,dvbsub,dvdsub \
+		--enable-decoder=h264,hevc,vp8,vp9,libdav1d,flv,vp6f,adpcm_swf,mpeg4,wmv3,msmpeg4v2,msmpeg4v3,theora,dvvideo,h263,mjpeg,png,jpeg,bmp,webp,mp3,aac,ac3,eac3,flac,opus,vorbis,pcm_s16le,pcm_s24le,alac,wma,ass,ssa,mov_text,subrip,webvtt,dvbsub,dvdsub \
 		--enable-parser=h264,hevc,vp8,vp9,aac,ac3,eac3,flac,opus,vorbis,mpeg4video,mpegaudio \
 		--enable-shared "
 
@@ -116,6 +116,7 @@ EOF
 	echo "Meson cross file created: $CROSS_FILE"
  	rm -rf build
 	meson setup build \
+ 	  --default-library=static \
 	  --prefix=$PREFIX \
 	  --buildtype release \
 	  --cross-file=$CROSS_FILE
@@ -152,9 +153,9 @@ configure_ffmpeg(){
    --cxx="$CLANGXX" \
    --sysroot="$SYSROOT" \
    --prefix="$PREFIX" \
-   --extra-cflags="-fpic -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security $EXTRA_CFLAGS " \
-   --extra-cxxflags="-fpic -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=c++17 -fexceptions -frtti $EXTRA_CXXFLAGS " \
-   --extra-ldflags=" -Wl,-z,max-page-size=16384 -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments -L$SYSROOT/usr/lib/$TARGET_ARCH-linux-android/$ANDROID_API_LEVEL" \
+   --extra-cflags="-fpic -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security $EXTRA_CFLAGS -I$PREFIX/include " \
+   --extra-cxxflags="-fpic -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=c++17 -fexceptions -frtti $EXTRA_CXXFLAGS -I$PREFIX/include " \
+   --extra-ldflags=" -Wl,-z,max-page-size=16384 -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments -L$SYSROOT/usr/lib/$TARGET_ARCH-linux-android/$ANDROID_API_LEVEL -L$PREFIX/lib" \
    --enable-pic \
    ${ENABLED_CONFIG} \
    ${DISABLED_CONFIG} \
