@@ -15,7 +15,7 @@ ENABLED_CONFIG="\
   		--enable-swscale \
 		--enable-libdav1d \
     	--enable-demuxer=mov,matroska,avi,mpegts,flv,ogg,image2,webm_dash_manifest,asf,m4v,mpegvideo,mp3,wav,aac,ac3,flac,webvtt \
-		--enable-decoder=h264,hevc,vp8,vp9,flv,vp6f,adpcm_swf,mpeg4,wmv3,msmpeg4v2,msmpeg4v3,theora,dvvideo,h263,mjpeg,png,jpeg,bmp,webp,mp3,aac,ac3,eac3,flac,opus,vorbis,pcm_s16le,pcm_s24le,alac,wma,ass,ssa,mov_text,subrip,webvtt,dvbsub,dvdsub \
+		--enable-decoder=h264,hevc,vp8,vp9,libdav1d,flv,vp6f,adpcm_swf,mpeg4,wmv3,msmpeg4v2,msmpeg4v3,theora,dvvideo,h263,mjpeg,png,jpeg,bmp,webp,mp3,aac,ac3,eac3,flac,opus,vorbis,pcm_s16le,pcm_s24le,alac,wma,ass,ssa,mov_text,subrip,webvtt,dvbsub,dvdsub \
 		--enable-parser=h264,hevc,vp8,vp9,aac,ac3,eac3,flac,opus,vorbis,mpeg4video,mpegaudio \
 		--enable-shared "
 
