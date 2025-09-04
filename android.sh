@@ -15,7 +15,8 @@ ENABLED_CONFIG="\
   		--enable-swscale \
 		--enable-libdav1d \
     	--enable-demuxer=* \
-		--enable-decoder=h264,hevc,vp8,vp9,libdav1d,flv,vp6f,adpcm_swf,mpeg4,wmv3,mpeg2video,mpeg2audio,msmpeg4v2,msmpeg4v3,theora,amrnb,amrwb,dvvideo,h263,mjpeg,png,jpeg,bmp,webp,mp3,aac,ac3,eac3,flac,opus,vorbis,pcm_s16le,pcm_s24le,alac,wma,ass,ssa,mov_text,subrip,webvtt,dvbsub,dvdsub \
+	 	--enable-encoder=mjpeg \
+		--enable-decoder=h264,hevc,vp8,vp9,libdav1d,flv,vp6f,adpcm_swf,mpeg4,wmv3,mpeg1video,mpeg2audio,msmpeg4v2,msmpeg4v3,theora,amrnb,amrwb,dvvideo,h263,mjpeg,png,jpeg,bmp,webp,mp3,aac,ac3,eac3,flac,opus,vorbis,pcm_s16le,pcm_s24le,alac,wma,ass,ssa,mov_text,subrip,webvtt,dvbsub,dvdsub \
 		--enable-parser=* \
   		--enable-bsf=* \
 		--enable-shared "
