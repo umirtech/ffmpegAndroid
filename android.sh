@@ -13,6 +13,7 @@ ENABLED_CONFIG="\
 		--enable-avformat \
 		--enable-avutil \
   		--enable-swscale \
+		--enable-swresample \
 		--enable-libdav1d \
     	--enable-demuxer=* \
 	 	--enable-encoder=mjpeg \
@@ -26,7 +27,6 @@ ENABLED_CONFIG="\
 DISABLED_CONFIG="\
 		--disable-small \
 		--disable-zlib \
-    	--disable-swresample \
  		--disable-avfilter \
 		--disable-v4l2-m2m \
 		--disable-cuda-llvm \
