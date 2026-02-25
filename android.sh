@@ -122,6 +122,7 @@ EOF
  	  --default-library=static \
 	  --prefix=$PREFIX \
 	  --buildtype release \
+	  -Denable_tests=false \
 	  --cross-file=$CROSS_FILE
 	
 	ninja -C build
