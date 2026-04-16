@@ -172,6 +172,10 @@ configure_ffmpeg(){
    make clean
    make -j2
    make install -j2
+
+   gcc -shared -o libffmpeg.so \
+  	$(find libavcodec libavformat libavutil libswresample libswscale -name "*.o") \
+  	-lm -lz -lpthread -ldl
    
 }
 
