@@ -173,7 +173,7 @@ configure_ffmpeg(){
    make -j2
    make install -j2
 
-   ${CLANG} -shared -o libffmpeg.so \
+   ${CLANG} -shared -o ${PREFIX}/lib/libffmpeg.so \
   	$(find libavcodec libavformat libavutil libswresample libswscale -name "*.o") \
   	-lm -lz -ldl
    
