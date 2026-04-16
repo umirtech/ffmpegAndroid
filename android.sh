@@ -175,7 +175,7 @@ configure_ffmpeg(){
 
    ${CLANG} -shared -o libffmpeg.so \
   	$(find libavcodec libavformat libavutil libswresample libswscale -name "*.o") \
-  	-lm -lz -lpthread -ldl
+  	-lm -lz -ldl
    
 }
 
