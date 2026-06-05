@@ -18,13 +18,13 @@ ENABLED_CONFIG="\
 		--enable-muxer=wav,mp4,matroska,webm,mp3,adts,flac,ogg,opus,mpegts,hls,dash,segment \
     	--enable-demuxer=* \
 	 	--enable-encoder=mjpeg,utvideo \
-		--enable-decoder=h264,hevc,vp8,vp9,libdav1d,\
-			flv,vp6f,gif,dvbsub,dvdsub,pgssub,utvideo,\
-			adpcm_swf,mpeg4,wmv3,mpeg1video,mpeg2video,\
-			mpeg2audio,msmpeg4v2,msmpeg4v3,theora,truehd,\
-			amrnb,amrwb,dvvideo,h263,mjpeg,png,jpeg,bmp,\
-			webp,mp3,aac,ac3,eac3,flac,opus,vorbis,pcm_s16le,\
-			pcm_s24le,alac,wma,ass,ssa,mov_text,subrip,webvtt,\
+		--enable-decoder=h264,hevc,vp8,vp9,libdav1d \
+		--enable-decoder=flv,vp6f,gif,dvbsub,dvdsub,pgssub,utvideo \
+		--enable-decoder=adpcm_swf,mpeg4,wmv3,mpeg1video,mpeg2video \
+		--enable-decoder=mpeg2audio,msmpeg4v2,msmpeg4v3,theora,truehd \
+		--enable-decoder=amrnb,amrwb,dvvideo,h263,mjpeg,png,jpeg,bmp \
+		--enable-decoder=webp,mp3,aac,ac3,eac3,flac,opus,vorbis,pcm_s16le \
+		--enable-decoder=pcm_s24le,alac,wma,ass,ssa,mov_text,subrip,webvtt \
 		--enable-parser=* \
 		--enable-bsf=* \
 		--enable-protocol=file \
