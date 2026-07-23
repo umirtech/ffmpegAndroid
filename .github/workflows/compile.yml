@@ -40,7 +40,7 @@ jobs:
       
     - name: Clone latest FFmpeg
       run: |
-        git clone https://github.com/FFmpeg/FFmpeg.git ffmpeg
+        git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
         echo "FFMPEG_SOURCE_DIR=$GITHUB_WORKSPACE/ffmpeg" >> $GITHUB_ENV
 
     - name: Create build directory
